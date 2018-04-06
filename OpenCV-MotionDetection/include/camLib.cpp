@@ -13,14 +13,14 @@ Camera::Camera(void) {
         cout << "Cannot open the video cam" << endl;
     }
 	cout << " Camera warming up..." << endl;
-	
-	// Determine camera output size automatically...
-	dWidth  = cap.get(CV_CAP_PROP_FRAME_WIDTH); 		// get the width of frames of the video
+
+    // Determine camera output size automatically...
+    dWidth  = cap.get(CV_CAP_PROP_FRAME_WIDTH); 		// get the width of frames of the video
     dHeight = cap.get(CV_CAP_PROP_FRAME_HEIGHT); 	// get the height of frames of the video
-    fps     = cap.get(CV_CAP_PROP_FPS);				// get frames-per-second of the video device
+    fps     = 15;
+//cap.get(CV_CAP_PROP_FPS);				// get frames-per-second of the video device
 	// Print values out...
     cout << "Frame size : " << dWidth << " x " << dHeight << " --- fps: " << fps << endl;
-     
     // Read three images first...
 	cap >> prev_frame;
 	cvtColor(prev_frame, prev_frame, CV_RGB2GRAY);
@@ -28,20 +28,15 @@ Camera::Camera(void) {
 	cvtColor(current_frame, current_frame, CV_RGB2GRAY);
 	cap >> next_frame;
 	cvtColor(next_frame, next_frame, CV_RGB2GRAY);
-	
 	// number_of_changes is the amount of changes in the resut matrix...
 	number_of_changes = 0;
-	
 	// Detect motion in window...
 	x_start = 10, x_stop= dWidth-10;
 	y_start = 10, y_stop = dHeight-10;
-	
 	// Maximum deviation in the image, the  higher the value, the more motion is allowed...
 	max_deviation = 20;
-	
 	// Erode kernel...
 	kernel_ero = getStructuringElement(MORPH_RECT, Size(2,2));
-	
 	// Initialize Video Writer...
 	codec = CV_FOURCC('H', '2', '6', '4');			//select desired codec (must be available at runtime...
 }
@@ -51,9 +46,7 @@ Camera::~Camera(void)  {
 	cout << "Shutting down camera and closing files..." << endl;
 	cap.release();
 	writer.release();	// Release VideoWriter()
-	
 }
- 
 //----------------------------------------------------------------------
  
 // The camera access function... 
@@ -66,14 +59,14 @@ Mat Camera::captureVideo(void)	{
 	// Calculate differences between 3 consecutive frames...
 	diffImg(prev_frame, current_frame, next_frame);
 	imshow("Motion Indicator", result);		// Display the current frame...
-	
+
 	// Put images in the right order...
 	prev_frame		= current_frame;
 	current_frame	= next_frame;
 	next_frame		= frame;
-	
+
 	motion = diffImg(prev_frame, current_frame, next_frame);
-	
+
     return result;
 }
 
@@ -84,16 +77,16 @@ Mat Camera::diffImg(Mat prev, Mat current, Mat next)	{
 	bitwise_and(diff1, diff2, motion);
 	threshold(motion, motion, 35, 255, CV_THRESH_BINARY);
 	erode(motion, motion, kernel_ero);
-	
+
 	return motion;
 }
 
 // This function counts the differences between the 3 consecutive frames 
 // and puts a rectangle around the area of motion...
 int Camera::detectMotion(void)  {
-	// Calculate the standard deviation...							
-	meanStdDev(motion, mean, stddev);	
-	
+	// Calculate the standard deviation...
+	meanStdDev(motion, mean, stddev);
+
 	// if not too many changes then the motion is real...
 	if(stddev[0] < max_deviation)
 	{
@@ -129,39 +122,40 @@ int Camera::detectMotion(void)  {
 			rectangle(result,rect,Scalar(0,255,255),1,4);
 			imshow("Motion Indicator", result);
 		}
-		return number_of_changes;	
-	}		
-	 			
+		return number_of_changes;
+	}
+
 	return 0;
 }
 
 // This function opens an avi video file, 
 // using a codec that works with this file format (here: h264)...
 int Camera::openVideoFile(char detectionfile[80]) {
-	string filename = detectionfile;
-	writer.open(filename, codec, fps, frame.size(), true);
+	//string filename = detectionfile;
+	//string filename ="/home/pi/OpencvC++/SaveImagetoPi/output.avi";
+	//writer.open(filename, codec, fps, frame.size(), true);
 	//Check if succeeded
 	if (!writer.isOpened())	{
 		cerr << "Could not open the output video file for write\n";
 	} 
-	
+
 	return 0;
 }
 
 // This function saves the frames in the avi video file...
 int Camera::saveVideo(Mat oneFrame) {
-	namedWindow("saving", WINDOW_AUTOSIZE);
-	imshow("saving", oneFrame);
-	usleep(100);
+	//namedWindow("saving", WINDOW_AUTOSIZE);
+	//imshow("saving", oneFrame);
+	//usleep(100);
 
-	//writer.write(oneFrame); //or...
-	writer << oneFrame;
-		
+	writer.write(oneFrame); //or...
+	//writer << oneFrame;
+
 	return 0;
 }
 
 int Camera::closeVideo(void) {
 	writer.release();	// Release VideoWriter()
-	
+
 	return 0;
 }

@@ -1,94 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<style>
-div#upButton{
-  width: 200px;
-  left: 200px;
-  top: 80px;
-  position: absolute;
-}
-div#downButton{
-  width: 200px;
-  left: 200px;
-  top: 300px;
-  position: absolute;
-}
-div#leftButton{
-  width: 200px;
-  left: 30px;
-  top: 185px;
-  position: absolute;
-}
-div#rightButton{
-  width: 200px;
-  left: 330px;
-  top: 185px;
-  position: absolute;
-}
-div#stream{
-  width: 200px;
-  left: 800px;
-  top: 200px;
-  position: absolute;
-}
-div#streamTitle{
-  width: 200px;
-  left: 800px;
-  top: 20px;
-  position: absolute;
-}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"href="{{ url_for('static',filename='css/index.css')}}">
+<link rel="stylesheet"href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type = "text/javascript" src = "{{ url_for('static',filename="js/index.js")}}"></script>
 </head>
-<body>
-
-
+<body onload = "loadImages();">
+<div id = "border"></div>
+<div id = "GmitLogo"><img src="{{ url_for('static',filename="Gmit.png")}}"width='400' height='120'></div>
 <div data-role="page" >
   <div data-role="main" class="ui-content">
-	   <h2><strong>Controls For Robot</strong></h2>
-	   <div id = "upButton"><button align="left">FORWARD</button></div>
-           <div id = "downButton"><button align="left">REVERSE </button></div>
-	   <div id = "leftButton"><button align="left">TURN LEFT</button></div>
-	   <div id = "rightButton"><button align="left">TURN RIGHT</button></div>
-  </div>
+	   <div id = "ControlTitle"><h1>Controls For RC</h1></div>
+	   <div id = "CaptureButton"><button align="left" class="btn btn-success btn-lg">Capture Image</button></div>
+	   <div onmousedown="mouseDown5()" onmouseup="mouseUp()" id = "autoPilotButton"><button align="left" class="btn btn-success btn-lg">AutoPilot</button></div>
+	   <div onmousedown="mouseDown1()" onmouseup="mouseUp()" id = "Forward"><img src="{{ url_for('static',filename="arrowup.png")}}"width='120' height='120'></div>
+	   <div onmousedown="mouseDown2()" onmouseup="mouseUp()" id = "Reverse"><img src="{{ url_for('static',filename="arrowdown.png") }}"width='120' height='120'></div>
+	   <div onmousedown="mouseDown3()" onmouseup="mouseUp()" id = "Left"><img src="{{ url_for('static',filename="arrowleft.png") }}"width='120' height='120'></div>
+	   <div onmousedown="mouseDown4()" onmouseup="mouseUp()" id = "Right"><img src="{{ url_for('static',filename="arrowright.png") }}"width='120' height='120'></div>
+<div id = "CapturedImages"><h1>Captured Images</h1></div>
+<div id = "ImagePanel1"</div>
+</div>
   <div id = "streamTitle"><h1>Camera Stream</h1></div>
   <div id = "stream"> <img src="{{ url_for('video_feed') }}"></div>
 </div>
-<script type = "text/javascript">
-$( "#upButton" ).click(function() { 	
-  moveCarViaRest('up');
-});
-$( "#downButton" ).click(function() {
-  moveCarViaRest('down');
-});
-$( "#leftButton" ).click(function() {
-  moveCarViaRest('left');
-});
-$( "#rightButton" ).click(function() {
-  moveCarViaRest('right');
-});
-
-function moveCarViaRest(direction) {
-         $.ajax({ 
-             type: "POST",
-	     contentType:"application/json",
-             dataType: "json",
-             url: "http://192.168.137.38:5001/todo/api/v1.0/tasks?direction=" + direction,
-	     crossDomain: true,
-             success: function(data){        
-                alert(data);
-             },
-	     error: function (jqXHR, textStatus, errorThrown) {
-		console.log(jqXHR.responseText);
-             }
-         });
-}
-</script>
 </body>
 </html>

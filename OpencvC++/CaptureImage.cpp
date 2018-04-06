@@ -10,6 +10,7 @@ using namespace std;
 
 int main(int, char**)
 {
+    string filename = "/home/pi/Image.png";
     Mat frame;
     VideoCapture cap(0); // Try with 0,1,2, etc. this is the number of your camera 
     if (!cap.isOpened())  // if not success, exit program
@@ -31,13 +32,14 @@ int main(int, char**)
         cap >> frame;
         imshow("camera",frame);
 
-        if (waitKey(1) == 27) 		//wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
+        if (waitKey(1) == 27 ) 		//wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
 	{
 	    cout << "esc key is pressed by user" << endl;
-            imwrite("/home/pi/Image.png",frame);
+	    imwrite((filename),frame);
             break; 
 	}
-
+	           
+            
     }
     cap.release();
 

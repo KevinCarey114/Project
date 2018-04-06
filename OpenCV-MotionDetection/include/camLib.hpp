@@ -3,9 +3,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef __IOSTREAM_INCLUDED__
 #define __IOSTREAM_INCLUDED__
-
+#include "opencv2/opencv.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/opencv.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include <opencv2/videoio/videoio.hpp>
 #include <iostream>
 #include <vector>
 #include <unistd.h>
@@ -21,13 +23,13 @@ class Camera
 		Mat captureVideo(void);
 		Mat diffImg(Mat, Mat, Mat);
 		int openVideoFile(char [80]);
-		int saveVideo(Mat );
+                int saveVideo(Mat );
 		int detectMotion(void);
 		int closeVideo(void);
-		
+
 	private:
 		VideoWriter writer;
-		
+
 		double dWidth;
 		double dHeight;
 		double fps;
@@ -47,7 +49,6 @@ class Camera
 		int codec;
 		int number_of_changes;
 		Mat kernel_ero;		// Erode kernel...
-	
 };
 
 

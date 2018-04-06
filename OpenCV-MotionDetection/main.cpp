@@ -3,6 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-	test();
-	return 0;
+    test();
+    //test2();
+    return 0;
 }

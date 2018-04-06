@@ -8,18 +8,22 @@ import subprocess
 
 app = Flask(__name__)
 CORS(app)
-@app.route('/todo/api/v1.0/tasks', methods=['POST'])
+@app.route('/Controls', methods=['POST'])
 def get_tasks():
-    print(sys.path)
     dir = request.args.get('direction')
     if dir == 'up':
         subprocess.Popen(['/home/pi/MoveRobotCommands/Forward'], shell = True)	
+    if dir == 'stop':
+        subprocess.Popen(['/home/pi/MoveRobotCommands/StopMotors'], shell = True)
     if dir == 'down':
         subprocess.Popen(['/home/pi/MoveRobotCommands/Reverse'], shell = True)	
     if dir == 'left':
         subprocess.Popen(['/home/pi/MoveRobotCommands/TurnLeft'], shell = True)	
     if dir == 'right':
         subprocess.Popen(['/home/pi/MoveRobotCommands/TurnRight'], shell = True)	 
+    return dir
+    if dir == 'auto':
+        subprocess.Popen(['/home/pi/MoveRobotCommands/Forward'], shell = True)	 
     return dir
 
 if __name__ == '__main__':

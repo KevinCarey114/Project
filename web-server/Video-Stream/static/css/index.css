@@ -3,14 +3,14 @@ body {
   height: 2000px;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to top left, #cc0000 21%, #ffffff 113%);
+  background: linear-gradient(to top left, #004d4d 60%, #00b3b3 90%);
 }
 	
 div#border {
   width: 100%;
     height: 100%;
     padding: 40px;
-    border: 20px double black;
+    border: 20px double white;
 }
 
 div#Forward{
@@ -24,8 +24,9 @@ div#Reverse{
   position: absolute;
 }
 div#GmitLogo{
-  left: 1475px;
+  left: 1465px;
   top: 40px;
+  border:3px solid white;
   position: absolute;
 }
 div#Left{
@@ -47,35 +48,44 @@ div#autoPilotButton{
 }
 div#stream{
   width: 200px;
-  left: 750px;
+  left: 715px;
   top: 100px;
   position: absolute;
 }
+
 div#streamTitle{
   width: 300px;
-  left: 750px;
-  top: 30px;
-  position: absolute;
+  left: 920px;
+  color: white;
+  top: 25px; 
+  text-decoration: underline;
+  position: absolute;  
 }
 div#ControlTitle{
   width: 300px;
-  left: 30px;
-  top: 30px;
-   position: absolute;
+  left: 145px;
+  top: 25px;
+  color: white;
+  text-decoration: underline;
+  position: absolute;
 }
-div#CaptureButton{
+div#capImage{
   left: 530px;
   top: 290px;
   position: absolute;
 }
 div#ImagePanel1{
   left: 150px;
-  top: 640px;
+  top: 690px;
+  border:6px solid white;
   position: absolute;
 }
+
 div#CapturedImages{
   width: 400px;
-  left: 600px;
-  top: 570px;
-   position: absolute;
+  left: 650px;
+  top: 600px;
+  color: white;
+text-decoration: underline;
+  position: absolute;
 }

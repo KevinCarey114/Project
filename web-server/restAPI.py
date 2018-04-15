@@ -5,6 +5,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 import RPi.GPIO as GPIO
 import subprocess 
+from subprocess import call
 
 app = Flask(__name__)
 CORS(app)
@@ -22,9 +23,16 @@ def get_tasks():
     if dir == 'right':
         subprocess.Popen(['/home/pi/MoveRobotCommands/TurnRight'], shell = True)	 
     return dir
+    if dir == 'capImage':
+        subprocess.Popen(['sudo python /home/pi/camera.py'], shell = True)	 
+    return dir
     if dir == 'auto':
         subprocess.Popen(['/home/pi/MoveRobotCommands/Forward'], shell = True)	 
     return dir
+@app.route('/StartStream', methods=['POST'])
+def get_start():
+    subprocess.Popen(['sudo python /home/pi/web-server/Video-Stream/app.py'], shell = True)
+    return "success"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port = 5001)

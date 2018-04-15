@@ -9,25 +9,79 @@
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type = "text/javascript" src = "{{ url_for('static',filename="js/index.js")}}"></script>
 </head>
 <body onload = "loadImages();">
 <div id = "border"></div>
 <div id = "GmitLogo"><img src="{{ url_for('static',filename="Gmit.png")}}"width='400' height='120'></div>
 <div data-role="page" >
-  <div data-role="main" class="ui-content">
-	   <div id = "ControlTitle"><h1>Controls For RC</h1></div>
-	   <div id = "CaptureButton"><button align="left" class="btn btn-success btn-lg">Capture Image</button></div>
+<div data-role="main" class="ui-content">
+	   <div id = "ControlTitle"><h1><b>Controls For RC</b></h1></div>
+	   <div onclick="redirectAndCaptureImage()" id = "capImage"><button align="left" class="btn btn-success btn-lg">Capture Image</button></div>
 	   <div onmousedown="mouseDown5()" onmouseup="mouseUp()" id = "autoPilotButton"><button align="left" class="btn btn-success btn-lg">AutoPilot</button></div>
-	   <div onmousedown="mouseDown1()" onmouseup="mouseUp()" id = "Forward"><img src="{{ url_for('static',filename="arrowup.png")}}"width='120' height='120'></div>
-	   <div onmousedown="mouseDown2()" onmouseup="mouseUp()" id = "Reverse"><img src="{{ url_for('static',filename="arrowdown.png") }}"width='120' height='120'></div>
-	   <div onmousedown="mouseDown3()" onmouseup="mouseUp()" id = "Left"><img src="{{ url_for('static',filename="arrowleft.png") }}"width='120' height='120'></div>
-	   <div onmousedown="mouseDown4()" onmouseup="mouseUp()" id = "Right"><img src="{{ url_for('static',filename="arrowright.png") }}"width='120' height='120'></div>
-<div id = "CapturedImages"><h1>Captured Images</h1></div>
-<div id = "ImagePanel1"</div>
+	   <div onmousedown="mouseDown1()" onmouseup="mouseUp()" id = "Forward"><img src="{{ url_for('static',filename="arrow_up.png")}}"width='120' height='120'></div>
+	   <div onmousedown="mouseDown2()" onmouseup="mouseUp()" id = "Reverse"><img src="{{ url_for('static',filename="arrow_down.png") }}"width='120' height='120'></div>
+	   <div onmousedown="mouseDown3()" onmouseup="mouseUp()" id = "Left"><img src="{{ url_for('static',filename="arrow_left.png") }}"width='120' height='120'></div>
+	   <div onmousedown="mouseDown4()" onmouseup="mouseUp()" id = "Right"><img src="{{ url_for('static',filename="arrow_right.png") }}"width='120' height='120'></div>
+<div id = "CapturedImages"><h1><b>Captured Images</b></h1></div>
+<div id = "ImagePanel1"></div>
 </div>
-  <div id = "streamTitle"><h1>Camera Stream</h1></div>
-  <div id = "stream"> <img src="{{ url_for('video_feed') }}"></div>
+  <div id = "streamTitle"><h1><b>Camera Stream</b></h1></div>
+  <div id = "stream"><img src="{{ url_for('video_feed') }}"></div>
 </div>
+<script type="text/javascript">
+function loadImages() {
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured1.png')}} width='300' height='300' />");
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured2.png')}} width='300' height='300' />");
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured3.png')}} width='300' height='300' />");
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured4.png')}} width='300' height='300' />");
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured5.png')}} width='300' height='300' />");
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured6.png')}} width='300' height='300' />");
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured7.png')}} width='300' height='300' />");
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured8.png')}} width='300' height='300' />");
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured9.png')}} width='300' height='300' />");
+		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured10.png')}} width='300' height='300' />");
+}
+function moveCarViaRest(direction) {
+	var host = location.hostname;
+	console.log(host);
+	var url_path = "http://" + host + ":5001/Controls?direction=" + direction;
+	console.log(url_path);
+         $.ajax({ 
+             type: "POST",
+	     contentType:"application/json",
+             dataType: "json",
+             url: url_path,
+	     crossDomain: true,
+             success: function(data){        
+                alert(data);
+             },
+	     error: function (jqXHR, textStatus, errorThrown) {
+		console.log(jqXHR.responseText);
+             }
+         });
+}
+function mouseDown1() {
+   moveCarViaRest('up');
+}
+function mouseDown2() {
+   moveCarViaRest('down');
+}
+function mouseDown3() {
+   moveCarViaRest('left');
+}
+function mouseDown4() {
+   moveCarViaRest('right');
+}
+function mouseDown5() {
+   moveCarViaRest('up');
+}
+function mouseUp() {
+   moveCarViaRest('stop');
+}
+function redirectAndCaptureImage() {
+   var host = location.hostname;	
+   location.href = "http://" + host + "/imageCapture.html";	
+}
+</script>
 </body>
 </html>

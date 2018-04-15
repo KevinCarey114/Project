@@ -4,7 +4,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/videoio/videoio.hpp>
 #include <opencv2/highgui/highgui.hpp>
-
+#include <time.h>
 using namespace cv;
 using namespace std;
 
@@ -12,6 +12,7 @@ int main(int, char**)
 {
     string filename = "/home/pi/Image.png";
     Mat frame;
+    //time_t start = time(0);
     VideoCapture cap(0); // Try with 0,1,2, etc. this is the number of your camera 
     if (!cap.isOpened())  // if not success, exit program
     {
@@ -30,16 +31,8 @@ int main(int, char**)
     while(1){
 
         cap >> frame;
-        imshow("camera",frame);
-
-        if (waitKey(1) == 27 ) 		//wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
-	{
-	    cout << "esc key is pressed by user" << endl;
-	    imwrite((filename),frame);
-            break; 
-	}
-	           
-            
+        imwrite((filename),frame);
+        break;
     }
     cap.release();
 

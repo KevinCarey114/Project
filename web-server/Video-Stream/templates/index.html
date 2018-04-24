@@ -10,14 +10,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body onload = "loadImages();">
+<body onload = "loadAllImages();">
 <div id = "border"></div>
 <div id = "GmitLogo"><img src="{{ url_for('static',filename="Gmit.png")}}"width='400' height='120'></div>
 <div data-role="page" >
 <div data-role="main" class="ui-content">
 	   <div id = "ControlTitle"><h1><b>Controls For RC</b></h1></div>
 	   <div onclick="redirectAndCaptureImage()" id = "capImage"><button align="left" class="btn btn-success btn-lg">Capture Image</button></div>
-	   <div onmousedown="mouseDown5()" onmouseup="mouseUp()" id = "autoPilotButton"><button align="left" class="btn btn-success btn-lg">AutoPilot</button></div>
+	   <div onclick="redirectAndCaptureVideo()" id = "capVideo"><button align="left" class="btn btn-success btn-lg">Capture Video</button></div>
 	   <div onmousedown="mouseDown1()" onmouseup="mouseUp()" id = "Forward"><img src="{{ url_for('static',filename="arrow_up.png")}}"width='120' height='120'></div>
 	   <div onmousedown="mouseDown2()" onmouseup="mouseUp()" id = "Reverse"><img src="{{ url_for('static',filename="arrow_down.png") }}"width='120' height='120'></div>
 	   <div onmousedown="mouseDown3()" onmouseup="mouseUp()" id = "Left"><img src="{{ url_for('static',filename="arrow_left.png") }}"width='120' height='120'></div>
@@ -28,6 +28,11 @@
   <div id = "streamTitle"><h1><b>Camera Stream</b></h1></div>
   <div id = "stream"><img src="{{ url_for('video_feed') }}"></div>
 </div>
+
+<div id = "WebCapture"><h1><b>Capture Web Image</b></h1></div>
+<div id = "ImagePanel2"></div>
+<div id = "WebVideoCapture"><h1><b>Captured Web Video</b></h1></div>
+<div id = "ImagePanel3"></div>
 <script type="text/javascript">
 function loadImages() {
 		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured1.png')}} width='300' height='300' />");
@@ -40,6 +45,18 @@ function loadImages() {
 		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured8.png')}} width='300' height='300' />");
 		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured9.png')}} width='300' height='300' />");
 		$("#ImagePanel1").append("<img id = 'test' src = {{ url_for('static', filename='MotionCaptured10.png')}} width='300' height='300' />");
+}
+function loadWebCaptures()  {
+$("#ImagePanel2").append("<img id = 'test1' src = {{ url_for('static', filename='ImageCapture.png')}} width='500' height='400' />");
+}
+function loadWebVideoCaptures()  {
+$("#ImagePanel3").append("<video width='500' height='400' autoplay preload='auto' src = {{ url_for('static', filename='output.mov')}} type='video/mp4; codecs='av1.42E01E,mp4a.40.2''  </video>");
+}
+function loadAllImages(){
+    loadImages();
+    loadWebCaptures();
+    loadWebVideoCaptures();
+
 }
 function moveCarViaRest(direction) {
 	var host = location.hostname;
@@ -72,15 +89,16 @@ function mouseDown3() {
 function mouseDown4() {
    moveCarViaRest('right');
 }
-function mouseDown5() {
-   moveCarViaRest('up');
-}
 function mouseUp() {
    moveCarViaRest('stop');
 }
 function redirectAndCaptureImage() {
    var host = location.hostname;	
    location.href = "http://" + host + "/imageCapture.html";	
+}
+function redirectAndCaptureVideo() {
+   var host = location.hostname;	
+   location.href = "http://" + host + "/videoCapture.html";	
 }
 </script>
 </body>

@@ -63,8 +63,8 @@ int test()
 		    sendEmail++;
                     PicCounter = 0;
 		    if(sendEmail == 1){
-			system("sudo /home/pi/SendEmail.sh");
-			cout << "Email Sent!" << endl;
+			//system("sudo /home/pi/SendEmail.sh");
+			//cout << "Email Sent!" << endl;
 		    }
                 }
                 frameSequence++;
@@ -88,7 +88,7 @@ int test()
 
         if (waitKey(30) == 27) 		//wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
         {
-            system("sudo /home/pi/ForLoop.sh");
+            //system("sudo /home/pi/ForLoop.sh");
             cout << "esc key is pressed by user" << endl;
             break;
         }

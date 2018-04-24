@@ -18,14 +18,11 @@ int ex = 1734701162;
 
 int main( int argc, const char** argv )
 {
-
     VideoCapture cap(0);
     int i_fps = 15;
     time_t start = time(0);
-
     string OutputVideoPath = "/home/pi/output.mov";
-    VideoWriter outputVideo(OutputVideoPath, ex, i_fps, Size(640,480), true);
-
+    VideoWriter outputVideo(OutputVideoPath,ex,i_fps, Size(640,480), true);
 
     if(!cap.isOpened())  {
         cout << "Not opened" << endl; // check if we succeeded

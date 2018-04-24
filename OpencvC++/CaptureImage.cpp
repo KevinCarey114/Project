@@ -5,14 +5,20 @@
 #include <opencv2/videoio/videoio.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <time.h>
+#include <unistd.h>
 using namespace cv;
 using namespace std;
-
+time_t seconds;
+struct tm * timeinfo;
+time_t start = time(0);
 int main(int, char**)
 {
-    string filename = "/home/pi/Image.png";
+    time_t mytime;
+    mytime = time(NULL);
+    struct tm tm = *localtime(&mytime);
+    char TestStr[100];
+    string filename = "/home/pi/web-server/Video-Stream/static/ImageCapture.png";
     Mat frame;
-    //time_t start = time(0);
     VideoCapture cap(0); // Try with 0,1,2, etc. this is the number of your camera 
     if (!cap.isOpened())  // if not success, exit program
     {
@@ -26,14 +32,16 @@ int main(int, char**)
     int fps     = 15;
 
     cout << "Frame size : " << dWidth << " x " << dHeight << " --- fps: " << fps << endl;
-    namedWindow("camera");
-
-    while(1){
-
-        cap >> frame;
-        imwrite((filename),frame);
-        break;
-    }
+while(1){
+    cap >> frame;
+    
+     if ( difftime( time(0), start) == 3) {
+    sprintf(TestStr,"%d-%d-%d",tm.tm_year + 1900, tm.tm_mon +1, tm.tm_mday);
+    putText(frame,TestStr, cvPoint(480,400),FONT_HERSHEY_COMPLEX_SMALL,0.8,cvScalar(124,255,255),1,CV_AA);
+    imwrite((filename),frame);
+    break;
+}
+}
     cap.release();
 
   return 0;

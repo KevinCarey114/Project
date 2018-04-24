@@ -40,7 +40,7 @@ div#Right{
   position: absolute;
 }
 
-div#autoPilotButton{
+div#capVideo{
   width: 200px;
   left: 530px;
   top: 240px;
@@ -69,6 +69,22 @@ div#ControlTitle{
   text-decoration: underline;
   position: absolute;
 }
+div#WebCapture{
+  width: 400px;
+  left: 1080px;
+  top: 1480px;
+  color: white;
+  text-decoration: underline;
+  position: absolute;
+}
+div#WebVideoCapture{
+  width: 500px;
+  left: 230px;
+  top: 1480px;
+  color: white;
+  text-decoration: underline;
+  position: absolute;
+}
 div#capImage{
   left: 530px;
   top: 290px;
@@ -77,7 +93,18 @@ div#capImage{
 div#ImagePanel1{
   left: 150px;
   top: 690px;
-  border:6px solid white;
+  position: absolute;
+}
+
+div#ImagePanel2{
+  left:1000px;
+  top: 1550px;
+  position: absolute;
+}
+
+div#ImagePanel3{
+  left: 200px;
+  top:  1550px;
   position: absolute;
 }
 

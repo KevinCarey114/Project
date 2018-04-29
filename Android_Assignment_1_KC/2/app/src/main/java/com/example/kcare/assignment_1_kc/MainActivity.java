@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     ImageButton btn1, btn2, btn3, btn4;
     WebView mWebView;
-    private static final String TAG = "APP_TEST";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,21 +71,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendRequestToServer(String direction) {
         try {
-            Log.v(TAG, "ENTERED request method");
             URL url = new URL("http://192.168.137.165:5001/Controls?direction=" + direction);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Accept", "application/json");
-
-            if (conn.getResponseCode() != 200) {
-                Log.v(TAG, "Failed : HTTP error code : "
-                        + conn.getResponseCode());
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-
-            }
-
-
 
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     (conn.getInputStream())));
@@ -104,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
             String sStackTrace = sw.toString();
-            Log.v(TAG, "Failed : HTTP error code : "
-                    + sStackTrace);
-            e.printStackTrace();
 
         }
 

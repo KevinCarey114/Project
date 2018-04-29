@@ -23,8 +23,7 @@ int Motor2_2=23; // WiringPi 25, physical 37, GPIO 26
 #define ECHO2 26
 
 const int delayNum = 200;
-void setup() 
-{
+void setup() {
         wiringPiSetup();
 
 
@@ -54,57 +53,54 @@ void StopMotors()
 	digitalWrite(ENABLEPIN2,LOW);
 	digitalWrite(Motor2_1,LOW);
 	digitalWrite(Motor2_2,LOW);
+
 }
 
 //Forward
 void Forward()
 {
-	long ping       = 0;
-	long pong       = 0;
-	float distance  = 0;
- 	long timeout    = 500000; // 0.5 sec ~ 171 m
-	
-	// Ensure trigger is low.
-	digitalWrite(TRIG1, LOW);
-	delay(50);
-	
-	// Trigger the ping.
-	digitalWrite(TRIG1, HIGH);
-	delayMicroseconds(10); 
-	digitalWrite(TRIG1, LOW);
+	digitalWrite(ENABLEPIN1,LOW);
+	digitalWrite(ENABLEPIN2,LOW);
 
-	
-	// Wait for ping response, or timeout.
-	while (digitalRead(ECHO1) == LOW );
-	
-	
-	ping = micros();
-	
-	// Wait for pong response, or timeout.
-	while (digitalRead(ECHO1) == HIGH );
-	
-	pong = micros();
+	digitalWrite(Motor1_1,LOW);
+	digitalWrite(Motor1_2,HIGH);
+	digitalWrite(ENABLEPIN1,HIGH);
 
-	// Convert ping duration to distance.
-	distance = (float) (pong - ping) * 0.017150;
-	printf("Sensor %.2f cm.\n",distance);
-	if(distance > 20){
-		digitalWrite(ENABLEPIN1,LOW);
-		digitalWrite(ENABLEPIN2,LOW);
-	
-		digitalWrite(Motor1_1,LOW);
-		digitalWrite(Motor1_2,HIGH);
-		digitalWrite(ENABLEPIN1,HIGH);
-	
-		digitalWrite(Motor2_1,LOW);
-		digitalWrite(Motor2_2,HIGH);
-		digitalWrite(ENABLEPIN2,HIGH);
-		printf("Sensor %.2f cm.\n",distance);
+	digitalWrite(Motor2_1,LOW);
+	digitalWrite(Motor2_2,HIGH);
+	digitalWrite(ENABLEPIN2,HIGH);
 	}
-	else{
-		StopMotors();
-	}
+//Reverse
+void Reverse()
+{
+	digitalWrite(ENABLEPIN1,LOW);
+	digitalWrite(ENABLEPIN2,LOW);
+	delay(500);
 
+	digitalWrite(Motor1_1,HIGH);
+	digitalWrite(Motor1_2,LOW);
+	digitalWrite(ENABLEPIN1,HIGH);
+	
+	digitalWrite(Motor2_1,HIGH);
+	digitalWrite(Motor2_2,LOW);
+	digitalWrite(ENABLEPIN2,HIGH);
+	
+	delay(delayNum+400);
+}
+void Turn_Left()
+{
+	digitalWrite(ENABLEPIN1,LOW);
+	digitalWrite(ENABLEPIN2,LOW);
+
+	digitalWrite(Motor1_1,LOW);
+	digitalWrite(Motor1_2,HIGH);
+	digitalWrite(ENABLEPIN1,HIGH);
+
+	digitalWrite(Motor2_1,HIGH);
+	digitalWrite(Motor2_2,LOW);
+	digitalWrite(ENABLEPIN2,HIGH);
+
+	delay(delayNum+1000);
 }
 int FrontSensor()
 {
@@ -136,14 +132,25 @@ int FrontSensor()
 
 	// Convert ping duration to distance.
 	distance = (float) (pong - ping) * 0.017150;
-	printf("Sensor %.2f cm.\n",distance);
-	//return distance;
+	
+	return distance;
 }
 int main (int argc, char *argv[])
 {
 	setup();
-	Forward();	
-	return 0;
+	while(1){
+		if((float)FrontSensor() > 20)
+		{
+			Forward();
+			//printf("FrontSensor Too Close! %.2f cm.\n",(float)FrontSensor());	
 
+		}
+		else if((float)FrontSensor() < 20){
+			StopMotors();
+			break;
+		}
+		printf("FrontSensor = %.2f cm.\n",(float)FrontSensor());
+}	
+return 0;
 }
 

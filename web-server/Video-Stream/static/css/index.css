@@ -18,6 +18,19 @@ div#Forward{
   top: 100px;
   position: absolute;
 }
+
+div#UploadImage{
+  width: 200px;
+  left: 1500px;
+  top: 1700px;
+  position: absolute;
+}
+div#UploadVideo{
+  width: 200px;
+  left: 700px;
+  top: 1700px;
+  position: absolute;
+}
 div#Reverse{
   left: 220px;
   top: 290px;
@@ -39,7 +52,12 @@ div#Right{
   top: 190px;
   position: absolute;
 }
-
+div#autopilot{
+  width: 200px;
+  left: 530px;
+  top: 400px;
+  position: absolute;
+}
 div#capVideo{
   width: 200px;
   left: 530px;

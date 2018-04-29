@@ -21,7 +21,7 @@ int main( int argc, const char** argv )
     VideoCapture cap(0);
     int i_fps = 15;
     time_t start = time(0);
-    string OutputVideoPath = "/home/pi/output.mov";
+    string OutputVideoPath = "/home/pi/web-server/Video-Stream/static/CapturedVideo.mov";
     VideoWriter outputVideo(OutputVideoPath,ex,i_fps, Size(640,480), true);
 
     if(!cap.isOpened())  {
@@ -34,7 +34,9 @@ int main( int argc, const char** argv )
         Mat frame;
         cap >> frame;
         outputVideo << frame;
-        if ( difftime( time(0), start) == 30) break;
+        if ( difftime( time(0), start) == 30) 
+        //system("sudo /home/pi/ConvertVideoFile.sh");
+	break;
 
     }
 

@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         StrictMode.setThreadPolicy(policy);
 
-        String piAddr = "http://192.168.137.78:5000/video_feed";
+        String piAddr = "http://192.168.137.165:5000/video_feed";
 
         mWebView = (WebView) findViewById(R.id.TestWebView);
         mWebView.getSettings().setLoadWithOverviewMode(true);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private void sendRequestToServer(String direction) {
         try {
             Log.v(TAG, "ENTERED request method");
-            URL url = new URL("http://192.168.137.78:5001/Controls?direction=" + direction);
+            URL url = new URL("http://192.168.137.165:5001/Controls?direction=" + direction);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Accept", "application/json");

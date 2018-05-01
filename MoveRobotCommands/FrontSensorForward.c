@@ -1,3 +1,4 @@
+
 /*
  *  hc-sr04.c:
  *	Simple test program to test the wiringPi functions
@@ -22,7 +23,6 @@ int Motor2_2=23; // WiringPi 25, physical 37, GPIO 26
 #define TRIG2 27  
 #define ECHO2 26
 
-const int delayNum = 200;
 void setup() {
         wiringPiSetup();
 
@@ -69,40 +69,9 @@ void Forward()
 	digitalWrite(Motor2_1,LOW);
 	digitalWrite(Motor2_2,HIGH);
 	digitalWrite(ENABLEPIN2,HIGH);
-	}
-//Reverse
-void Reverse()
-{
-	digitalWrite(ENABLEPIN1,LOW);
-	digitalWrite(ENABLEPIN2,LOW);
-	delay(500);
-
-	digitalWrite(Motor1_1,HIGH);
-	digitalWrite(Motor1_2,LOW);
-	digitalWrite(ENABLEPIN1,HIGH);
-	
-	digitalWrite(Motor2_1,HIGH);
-	digitalWrite(Motor2_2,LOW);
-	digitalWrite(ENABLEPIN2,HIGH);
-	
-	delay(delayNum+400);
 }
-void Turn_Left()
-{
-	digitalWrite(ENABLEPIN1,LOW);
-	digitalWrite(ENABLEPIN2,LOW);
 
-	digitalWrite(Motor1_1,LOW);
-	digitalWrite(Motor1_2,HIGH);
-	digitalWrite(ENABLEPIN1,HIGH);
-
-	digitalWrite(Motor2_1,HIGH);
-	digitalWrite(Motor2_2,LOW);
-	digitalWrite(ENABLEPIN2,HIGH);
-
-	delay(delayNum+1000);
-}
-int FrontSensor()
+int FrontLeftSensor()
 {
 	long ping       = 0;
 	long pong       = 0;
@@ -135,21 +104,53 @@ int FrontSensor()
 	
 	return distance;
 }
+int FrontRightSensor()
+{
+	long ping       = 0;
+	long pong       = 0;
+	float distance  = 0;
+ 	long timeout    = 500000; // 0.5 sec ~ 171 m
+	
+	// Ensure trigger is low.
+	digitalWrite(TRIG2, LOW);
+	delay(50);
+	
+	// Trigger the ping.
+	digitalWrite(TRIG2, HIGH);
+	delayMicroseconds(10); 
+	digitalWrite(TRIG2, LOW);
+
+	
+	// Wait for ping response, or timeout.
+	while (digitalRead(ECHO2) == LOW );
+	
+	
+	ping = micros();
+	
+	// Wait for pong response, or timeout.
+	while (digitalRead(ECHO2) == HIGH );
+	
+	pong = micros();
+
+	// Convert ping duration to distance.
+	distance = (float) (pong - ping) * 0.017150;
+	
+	return distance;
+}
 int main (int argc, char *argv[])
 {
 	setup();
-	while(1){
-		if((float)FrontSensor() > 20)
+while(1){
+		if((float)FrontLeftSensor() > 20 && (float)FrontRightSensor() > 10 )
 		{
-			Forward();
-			//printf("FrontSensor Too Close! %.2f cm.\n",(float)FrontSensor());	
-
+			Forward();	
 		}
-		else if((float)FrontSensor() < 20){
+		else if((float)FrontLeftSensor() < 10 || (float)FrontRightSensor() < 10){
 			StopMotors();
-			break;
+break;
 		}
-		printf("FrontSensor = %.2f cm.\n",(float)FrontSensor());
+		printf("FrontRightSensor = %.2f cm.\n",(float)FrontRightSensor());
+		printf("FrontLeftSensor = %.2f cm.\n",(float)FrontLeftSensor());
 }	
 return 0;
 }

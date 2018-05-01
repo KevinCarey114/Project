@@ -21,11 +21,7 @@
 	   <div onmousedown="mouseDown1()" onmouseup="mouseUp()" id = "Forward"><img src="{{ url_for('static',filename="arrow_up.png")}}"width='120' height='120'></div>
 	   <div onmousedown="mouseDown2()" onmouseup="mouseUp()" id = "Reverse"><img src="{{ url_for('static',filename="arrow_down.png") }}"width='120' height='120'></div>
 	   <div onmousedown="mouseDown3()" onmouseup="mouseUp()" id = "Left"><img src="{{ url_for('static',filename="arrow_left.png") }}"width='120' height='120'></div>
-	   <div onmousedown="mouseDown4()" onmouseup="mouseUp()" id = "Right"><img src="{{ url_for('static',filename="arrow_right.png") }}"width='120' height='120'></div>
-	   <div onmousedown="mouseDown5()" onmouseup="mouseUp()" id = "autopilot"><button align="left" class="btn btn-success btn-lg">Auto Pilot</div>
- 	   <div id = "UploadImage"><button align="left" class="btn btn-success btn-lg">Upload Image</div>
-	   <div id = "UploadVideo"><button align="left" class="btn btn-success btn-lg">Upload Video</div>
-            
+	   <div onmousedown="mouseDown4()" onmouseup="mouseUp()" id = "Right"><img src="{{ url_for('static',filename="arrow_right.png") }}"width='120' height='120'></div> 
 <div id = "CapturedImages"><h1><b>Captured Images</b></h1></div>
 <div id = "ImagePanel1"></div>
 </div>
@@ -78,7 +74,7 @@ function moveCarViaRest(direction) {
              },
 	     error: function (jqXHR, textStatus, errorThrown) {
 		console.log(jqXHR.responseText);
-             }
+             } 
          });
 }
 function mouseDown1() {
